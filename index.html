@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT IRYA PHARMA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #061b0f;
+            --secondary: #b82727;
+            --dark: #061b0f;
+            --light: #dec4e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 0;
+        }
+
+        .hero {
+            background: linear-gradient(#b0f1e7, #ccf6ef),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232C7A7B"/></svg>');
+            color: rgb(0, 0, 0);
+            padding: 100px 0;
+            margin-top: 56px;
+        }
+
+        .product-image {
+            height: 200px;
+            background: var(--secondary);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .product-card {
+            border: none;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+
+        .stock-status {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .contact-section {
+            background-color: var(--light);
+            padding: 80px 0;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            height: 100%;
+        }
+
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0;
+        }
+
+        .social-links a {
+            color: white;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">PT IRYA PHARMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero text-center" id="home">
+    <div class="container">
+        <img src="img/logo.png" class="img-fluid"alt="header">
+        <h1 class="display-4">Your Powerful Partner for A Healthy Life</h1>
+        <a href="#products" class="btn btn-primary btn-lg">View Our Products</a>
+    </div>
+</section>
+
+<!-- Carousel -->
+<div id="photoCarousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <img src="img/SLIDE1.png" class="d-block w-100" alt="Slide 1">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <img src="img/SLIDE2.png" class="d-block w-100" alt="Slide 2">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <img src="img/SLIDE3.png" class="d-block w-100" alt="Slide 3">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<section id="products" class="py-5">
+    <div class="container">
+        <h2 class="section-title">Our Products</h2>
+        <div class="row" id="product-container">
+
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </div>
+</section>
+
+<section id="about" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title">About Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Our Story</h3>
+                <p>PT IRYA PHARMA, established in 1994 and located in Indralaya, South Sumatra, has been contributing to the national pharmaceutical industry for 30 years. With the support of 250 competent employees, the company has successfully developed more than 50 types of pharmaceutical products including injectable preparations, ointments, creams, tablets, intranasal products, and various other medicines registered with BPOM RI. The comprehensive production facilities consist of sterile and non-sterile production areas, beta-lactam and non-beta-lactam zones, equipped with airlock systems and strict environmental controls, along with a Quality Control unit that ensures the highest quality standards. Armed with ISO 9001:2015 certification for quality management systems and ISO 14001:2015 for environmental management systems, the company is committed to its vision of becoming a trusted partner in supporting healthy living through pharmaceutical innovations. Through its mission to develop effective and safe pharmaceutical products, provide holistic healthcare solutions, promote research and innovation, and establish strategic partnerships, PT IRYA PHARMA continues to maintain high quality standards in every aspect of its production and services, supported by comprehensive facilities including raw material storage warehouses, utility systems, air handling systems, and waste management that meet international standards.</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Our Values</h3>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check-circle text-primary"></i> Quality Assurance</li>
+                    <li><i class="fas fa-check-circle text-primary"></i> Customer Care</li>
+                    <li><i class="fas fa-check-circle text-primary"></i> Professional Excellence</li>
+                    <li><i class="fas fa-check-circle text-primary"></i> Community Service</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Inderalaya, Sumatera Selatan</p>
+                    <p><i class="fas fa-phone"></i> (+62) 822 8023 1848</p>
+                    <p><i class="fas fa-phone"></i> (+62) 812 6423 7690</p>
+                    <p><i class="fas fa-envelope"></i> ptiryapharma@gmail.com</p>
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contact-info">
+                    <h3>Send us a Message</h3>
+                    <form id="contact-form">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>PT IRYA PHARMA</h5>
+                <p>Your Powerful Partner for a Healthy Life.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#home" class="text-white">Home</a></li>
+                    <li><a href="#products" class="text-white">Products</a></li>
+                    <li><a href="#about" class="text-white">About</a></li>
+                    <li><a href="#contact" class="text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Newsletter</h5>
+                <form id="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <p>&copy; 2024 PT Irya Pharma. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+const products = [
+    {
+        id: 1,
+        name: " CalciVita 600 mg",
+        category: "Vitamin",
+        stock: 100,
+        description: "Menjaga Kesehatan Tulang",
+        color: "#FFFFFF",
+        image: "img/calcivita.png"
+    },
+    {
+        id: 2,
+        name: "Omega-Vita 1000 mg",
+        category: "Vitamin",
+        stock: 150,
+        description: "Suplemen Kesehatan",
+        color: "#FFFFFF",
+        image: "img/omega.png"
+
+    },
+    {
+        id: 3,
+        name: "VitaA 5000 IU",
+        category: "Vitamin",
+        stock: 124,
+        description: "Menjaga Kesehatan Fungsi Mata",
+        color: "#FFFFFF",
+        image: "img/VitaA.png"
+
+    },
+    {
+        id: 4,
+        name: "NutriMunch Kids",
+        category: "Vitamin",
+        stock: 63,
+        description: "Suplemen Kesehatan Anak",
+        color: "#FFFFFF",
+        image: "img/NutriMunch.png"
+
+    },
+    {
+        id: 5,
+        name: "AppetiBoost",
+        category: "Vitamin",
+        stock: 85,
+        description: "Suplemen Penambah Nafsu Makan",
+        color: "#FFFFFF",
+        image: "img/AppetiBoost.png"
+
+    },
+    {
+        id: 6,
+        name: "AppetiVita Kids",
+        category: "Vitamin",
+        stock: 113,
+        description: "Suplemen Penambah Nafsu Makan Anak",
+        color: "#FFFFFF",
+        image: "img/AppetiVita.png"
+
+    },
+    {
+        id: 7,
+        name: "MultiVita Plus",
+        category: "Vitamin",
+        stock: 358,
+        description: "Suplemen Kesehatan Multivitamin",
+        color: "#FFFFFF",
+        image: "img/Multivita.png"
+
+    },
+    {
+        id: 8,
+        name: "HydroSalep 1%",
+        category: "Salep",
+        stock: 86,
+        description: "Salep Kulit",
+        color: "#FFFFFF",
+        image: "img/hydros.png"
+
+    },
+    {
+        id: 9,
+        name: "Bacitracin 500 IU",
+        category: "Salep",
+        stock: 42,
+        description: "Salep Kulit",
+        color: "#FFFFFF",
+        image: "img/baci.png"
+
+    },
+    {
+        id: 10,
+        name: "Cotrimazole 1%",
+        category: "Salep",
+        stock: 135,
+        description: "Salep Kulit",
+        color: "#FFFFFF",
+        image: "img/cotri.png"
+
+    },
+    {
+        id: 11,
+        name: "ZincOxide 10%",
+        category: "Salep",
+        stock: 87,
+        description: "Salep Kulit",
+        color: "#FFFFFF",
+        image: "img/zincox.png"
+
+    },
+    {
+        id: 12,
+        name: "Oxytetracycline HCL 3%",
+        category: "Salep",
+        stock: 52,
+        description: "Salep Kulit",
+        color: "#FFFFFF",
+        image: "img/oxyte.png"
+
+    },
+    {
+        id: 13,
+        name: "CoughRelief Syrup",
+        category: "Sirup",
+        stock: 34,
+        description: "Obat Batuk",
+        color: "#FFFFFF",
+        image: "img/cough.png"
+
+    },
+    {
+        id: 14,
+        name: "Paracetamol Syrup",
+        category: "Sirup",
+        stock: 35,
+        description: "Meringankan Rasa Sakit dan Menurunkan Demam",
+        color: "#FFFFFF",
+        image: "img/pctsyrup.png"
+
+    },
+    {
+        id: 15,
+        name: "Antacid Syrup",
+        category: "Sirup",
+        stock: 134,
+        description: "Meringankan Gejala Sakit Maag",
+        color: "#FFFFFF",
+        image: "img/antacid.png"
+
+    },
+    {
+        id: 16,
+        name: "Amoxicillin Syrup",
+        category: "Sirup",
+        stock: 70,
+        description: "Antibiotik",
+        color: "#FFFFFF",
+        image: "img/amox.png"
+
+    },
+    {
+        id: 17,
+        name: "CalciVita Kids Syrup",
+        category: "Sirup",
+        stock: 68,
+        description: "Menjaga Kesehatan Tulang Anak",
+        color: "#FFFFFF",
+        image: "img/calcisyrup.png"
+
+    },
+    {
+        id: 18,
+        name: "Cetrizine Syrup",
+        category: "Sirup",
+        stock: 154,
+        description: "Meredakan Gejala Alergi",
+        color: "#FFFFFF",
+        image: "img/cetrizine.png"
+
+    },
+    {
+        id: 19,
+        name: "NasoClear 0,1%",
+        category: "Nasal Spray",
+        stock: 59,
+        description: "Obat Semprot Hidung",
+        color: "#FFFFFF",
+        image: "img/nasoc.png"
+
+    },
+    {
+        id: 20,
+        name: "AllerNasal 0,05%",
+        category: "Nasal Spray",
+        stock: 125,
+        description: "Meredakan Gejala Alergi",
+        color: "#FFFFFF",
+        image: "img/aller.png"
+
+    },
+    {
+        id: 21,
+        name: "RhinoSpray 0,05%",
+        category: "Nasal Spray",
+        stock: 87,
+        description: "Obat Semprot Hidung",
+        color: "#FFFFFF",
+        image: "img/rhinos.png"
+
+    },
+    {
+        id: 22,
+        name: "NasoCort 50 mcg",
+        category: "Nasal Spray",
+        stock: 32,
+        description: "Obat Semprot Hidung",
+        color: "#FFFFFF",
+        image: "img/nasocort.png"
+
+    },
+
+    {
+        id: 23,
+        name: "SinusRelief 0,05%",
+        category: "Nasal Spray",
+        stock: 149,
+        description: "Obat Semprot Hidung",
+        color: "#FFFFFF",
+        image: "img/sinus.png"
+
+    },
+    {
+        id: 24,
+        name: "IbuproTab 400mg",
+        category: "Tablet",
+        stock: 87,
+        description: "Obat pereda nyeri dan penurun demam",
+        color: "#FFFFFF",
+        image: "img/ibupro.png"
+
+    },
+    {
+        id: 25,
+        name: "AmoxiTab 500 mg",
+        category: "Tablet",
+        stock: 42,
+        description: "Obat Antibiotik",
+        color: "#FFFFFF",
+        image: "img/amoxitab.png"
+
+    },
+    {
+        id: 26,
+        name: "Loratadine 10 mg",
+        category: "Tablet",
+        stock: 58,
+        description: "Meredakan gejala alergi",
+        color: "#FFFFFF",
+        image: "img/loratadine.png"
+
+    },
+    {
+        id: 27,
+        name: "FerroTab 100mg",
+        category: "Tablet",
+        stock: 65,
+        description: "Obat Tambah Darah",
+        color: "#FFFFFF",
+        image: "img/ferrotab.png"
+
+    },
+    {
+        id: 28,
+        name: "Diazepam 5mg",
+        category: "Tablet",
+        stock: 346,
+        description: "Obat Penenang",
+        color: "#FFFFFF",
+        image: "img/diazepam.png"
+
+    },
+    {
+        id: 29,
+        name: "Cetirizine 10mg",
+        category: "Tablet",
+        stock: 36,
+        description: "Obat pereda gejala akibat alergi",
+        color: "#FFFFFF",
+        image: "img/cetiritab.png"
+
+    },
+    {
+        id: 30,
+        name: "Omeprazol-Tab 20mg",
+        category: "Tablet",
+        stock: 54,
+        description: "Obat antirefluks dan antiulserasi",
+        color: "#FFFFFF",
+        image: "img/omepr.png"
+
+    },
+    {
+        id: 31,
+        name: "Simvastatin-Tab 10mg",
+        category: "Tablet",
+        stock: 346,
+        description: "Obat penurun kolesterol",
+        color: "#FFFFFF",
+        image: "img/simv.png"
+
+    },
+    {
+        id: 32,
+        name: "Mometasone Cream 0,1%",
+        category: "Krim",
+        stock: 74,
+        description: "Obat pereda gejala radang pada kulit",
+        color: "#FFFFFF",
+        image: "img/momet.png"
+
+    },
+    {
+        id: 33,
+        name: "Acyclovir Cream 5%",
+        category: "Krim",
+        stock: 38,
+        description: "Obat pereda luka lepuh di kulit akibat virus herpes",
+        color: "#FFFFFF",
+        image: "img/aciclo.png"
+
+    },
+    {
+        id: 34,
+        name: "Ketoconazole Cream 2%",
+        category: "Krim",
+        stock: 56,
+        description: "Obat anti jamur",
+        color: "#FFFFFF",
+        image: "img/ketoc.png"
+
+    },
+    {
+        id: 35,
+        name: "Tretinoin Cream 0,025%",
+        category: "Krim",
+        stock: 96,
+        description: "Obat jerawat",
+        color: "#FFFFFF",
+        image: "img/treti.png"
+
+    },
+    {
+        id: 36,
+        name: "Benzoyl Peroxide Cream 5%",
+        category: "Krim",
+        stock: 79,
+        description: "Obat pereda radang",
+        color: "#FFFFFF",
+        image: "img/benzoyl.png"
+
+    },
+    {
+        id: 37,
+        name: "HydroCream 1%",
+        category: "Krim",
+        stock: 85,
+        description: "Obat pereda radang, eksim, dan kemerahan di kulit",
+        color: "#FFFFFF",
+        image: "img/hydroc.png"
+
+    },
+    {
+        id: 38,
+        name: "ZincPowder",
+        category: "Bedak",
+        stock: 15,
+        description: "Bedak Tabur",
+        color: "#FFFFFF",
+        image: "img/zincp.png"
+
+    },
+    {
+        id: 39,
+        name: "BabyDust 50 g",
+        category: "Bedak",
+        stock: 32,
+        description: "Bedak Bayi",
+        color: "#FFFFFF",
+        image: "img/babyp.png"
+
+    },
+    {
+        id: 40,
+        name: "SalicylPowder 150 g",
+        category: "Bedak",
+        stock: 83,
+        description: "Bedak Tabur pereda gatal pada kulit",
+        color: "#FFFFFF",
+        image: "img/salicyl.png"
+
+    },
+    {
+        id: 41,
+        name: "MycoCare 100 g",
+        category: "Bedak",
+        stock: 60,
+        description: "Bedak Tabur pereda gatal Jamur",
+        color: "#FFFFFF",
+        image: "img/mycocare.png"
+
+    },
+    {
+        id: 42,
+        name: "Infus NaCl 0,9%",
+        category: "Infus",
+        stock: 346,
+        description: "Infus untuk mengembalikan keseimbangan elektrolit pada dehidrasi",
+        color: "#FFFFFF",
+        image: "img/nacl.png"
+
+    },
+    {
+        id: 43,
+        name: "Infus Asam Amino 7,2%",
+        category: "Infus",
+        stock: 87,
+        description: "Infus untuk gagal ginjal",
+        color: "#FFFFFF",
+        image: "img/aminoacid.png"
+
+    },
+    {
+        id: 44,
+        name: "Infus Levofloxacin",
+        category: "Infus",
+        stock: 49,
+        description: "Infus antibiotik",
+        color: "#FFFFFF",
+        image: "img/levo.png"
+
+    },
+    {
+        id: 45,
+        name: "Infus Paracetamol",
+        category: "Infus",
+        stock: 76,
+        description: "Infus pereda nyeri dan demam",
+        color: "#FFFFFF",
+        image: "img/parac.png"
+
+    },
+    {
+        id: 46,
+        name: "Infus Mannitol 20%",
+        category: "Infus",
+        stock: 90,
+        description: "Infus diuretik osmotik",
+        color: "#FFFFFF",
+        image: "img/mannitol.png"
+
+    },
+    {
+        id: 47,
+        name: "Injeksi Heparin",
+        category: "Injeksi",
+        stock: 34,
+        description: "Injeksi antikoagulan",
+        color: "#FFFFFF",
+        image: "img/heparin.png"
+
+    },
+    {
+        id: 48,
+        name: "Injeksi Vitamin B Complex",
+        category: "Injeksi",
+        stock: 34,
+        description: "Injeksi Vitamin",
+        color: "#FFFFFF",
+        image: "img/vitbinjeksi.png"
+
+    },
+    {
+        id: 49,
+        name: "Injeksi Omeprazole Sodium",
+        category: "Injeksi",
+        stock: 34,
+        description: "Injeksi Antiulcer",
+        color: "#FFFFFF",
+        image: "img/omepinj.png"
+
+    },
+    {
+        id: 50,
+        name: "Injeksi NICARdipine",
+        category: "Injeksi",
+        stock: 85,
+        description: "Injeksi terapi hipertensi",
+        color: "#FFFFFF",
+        image: "img/nicar.png"
+
+    },
+
+
+
+];
+
+
+function createProductCard(product) {
+    return `
+        <div class="col-md-4 col-lg-3">
+            <div class="product-card">
+                <span class="badge bg-primary category-badge">${product.category}</span>
+                <div class="product-image" style="background-color: ${product.color}">
+                    <img src="${product.image}" alt="${product.name}" class="img-fluid">
+                </div>
+                <div class="product-details">
+                    <h5>${product.name}</h5>
+                    <p class="description">${product.description}</p>
+                    <p class="stock-status">In Stock: ${product.stock}</p>
+                    <button class="btn btn-primary w-100" onclick="addToCart(${product.id})">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function displayProducts() {
+    const container = document.getElementById('product-container');
+    let html = '';
+    products.forEach(product => {
+        html += createProductCard(product);
+    });
+    container.innerHTML = html;
+}
+
+let cart = [];
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        cart.push(product);
+        updateCartCount();
+        showNotification('Product added to cart!');
+    }
+}
+
+function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.length;
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-success notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts();
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
